@@ -1,0 +1,39 @@
+{
+  "project": "IM Status Hub",
+  "version": "1.1.0",
+  "verifiedAt": "2026-10-15T10:34:33.375Z",
+  "node": "22.23.3",
+  "postgresql": "17",
+  "cleanInstall": true,
+  "formatCheck": "passed",
+  "lint": "passed",
+  "typescriptStrict": "passed",
+  "productionBuild": "passed",
+  "unit": {
+    "passed": 83,
+    "files": 5
+  },
+  "integration": {
+    "passed": 20,
+    "provider": "isolated mock"
+  },
+  "browser": {
+    "passed": 15,
+    "widths": [360, 390, 1440],
+    "pageErrors": 0
+  },
+  "axe": {
+    "audits": 16,
+    "violations": 0
+  },
+  "npmAuditVulnerabilities": 0,
+  "encryptedAuthCrossProcessRoundTrip": "passed",
+  "liveWhatsAppPairing": "not tested",
+  "liveWhatsAppRestartResumption": "not tested",
+  "dockerBuild": "not executed",
+  "githubPush": "not performed",
+  "railwayDeploy": "not performed",
+  "previewAccess": "Arena Live Preview; raw sandbox URL requires the platform traffic token",
+  "registration": "name/email/password only; no invitation",
+  "productionDeploymentFix": "not remotely verified"
+}

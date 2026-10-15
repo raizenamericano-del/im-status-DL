@@ -1,0 +1,151 @@
+
+> im-status-hub@1.1.0 verify
+> node scripts/verify.mjs
+
+
+> im-status-hub@1.1.0 db:generate
+> prisma generate
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+
+✔ Generated Prisma Client (v6.19.3) to ./node_modules/@prisma/client in 155ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+
+
+> im-status-hub@1.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> im-status-hub@1.1.0 typecheck
+> tsc --noEmit
+
+
+> im-status-hub@1.1.0 lint
+> eslint .
+
+
+> im-status-hub@1.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 /home/user/im-status-hub
+
+ ✓ tests/storage.test.ts (8 tests) 460ms
+ ✓ tests/security.test.ts (49 tests) 207ms
+ ✓ tests/provider.test.ts (7 tests) 7ms
+ ✓ tests/server-errors.test.ts (16 tests) 7ms
+ ✓ tests/privacy.test.ts (3 tests) 4ms
+
+ Test Files  5 passed (5)
+      Tests  83 passed (83)
+   Start at  10:33:37
+   Duration  2.01s (transform 139ms, setup 0ms, import 781ms, tests 685ms, environment 0ms)
+
+
+> im-status-hub@1.1.0 db:migrate
+> prisma migrate deploy
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": PostgreSQL database "imhub_test", schema "public" at "localhost:5432"
+
+1 migration found in prisma/migrations
+
+
+No pending migrations to apply.
+
+> im-status-hub@1.1.0 test:integration
+> tsx tests/integration.ts
+
+PASS registration needs only name, email and password, with no invitation configuration
+PASS health is public; all personal endpoints require authentication
+{"event":"api_error","code":"DATABASE_NOT_READY"}
+{"event":"api_error","code":"DATABASE_NOT_READY"}
+PASS missing schema returns a specific safe error for readiness and registration
+PASS CSRF, origin and consent are enforced
+PASS pairing challenge does not mean connected; only provider open does
+PASS auth credentials survive a real child-process restart encrypted
+PASS deduplicated status ingestion persists only owner-scoped metadata
+PASS download jobs deduplicate concurrent requests and complete after actual file bytes exist
+PASS HTTP file service streams exact bytes, ranges and safe filenames; rejects foreign owners
+PASS search, filters and library counts use actual persisted records
+PASS SSE emits only authenticated owner updates without challenges or session secrets
+PASS confirmed deletion hides media immediately and physically removes bytes during cleanup
+PASS provider error and timeout become durable failed jobs; retry is safe
+PASS automatic retention removes old media and expired descriptors
+PASS disconnect revokes secrets and generation-fences stale credential/event callbacks
+PASS offline worker prevents connecting; disabled provider is explicit
+PASS rate limits are persistent and atomic across concurrent requests
+PASS malformed media identifiers and user URL injection cannot cause arbitrary fetches
+PASS password changes validate current password, rotate other login sessions, and logout revokes cookie
+PASS public error responses do not expose stack traces or internal credentials
+
+20 integration scenarios passed. No real WhatsApp account used.
+
+> im-status-hub@1.1.0 build
+> next build --webpack
+
+▲ Next.js 16.4.1 (webpack)
+- Environments: .env
+✓ Running next.config.mjs took 31ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 3.3s
+  Running TypeScript ...
+  Finished TypeScript in 6.0s ...
+  Collecting page data using 1 worker ...
+  Generating static pages using 1 worker (0/5) ...
+  Generating static pages using 1 worker (1/5)
+  Generating static pages using 1 worker (2/5)
+  Generating static pages using 1 worker (3/5)
+✓ Generating static pages using 1 worker (5/5) in 301ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/[...path]
+├ ƒ /hub/[[...section]]
+├ ○ /icon.svg
+└ ○ /login
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+TEST_ONLY_WORKER_READY
+▲ Next.js 16.4.1
+- Local:         http://localhost:3300
+- Network:       http://0.0.0.0:3300
+✓ Ready in 144ms
+✓ Running next.config.mjs took 19ms
+
+> im-status-hub@1.1.0 test:browser
+> node tests/browser.mjs
+
+PASS landing navigation, local assets and responsive layout
+PASS registration without invitation, secure cookie and authenticated empty dashboard
+PASS desktop empty pages, filters and navigation
+PASS preferences persist, notifications toggle and password validation
+PASS preferences recover from a real HTTP error using the retry control
+PASS consent gate and QR generation are not represented as Connected
+PASS mock provider confirmation and SSE deliver actual persisted test events
+PASS status search and photo/video filters are functional
+PASS photo preparation, library save, original-byte download and modal toast
+PASS video decoding, playback controls and range seeking
+PASS library grid/list, filename search, sort and confirmed delete
+PASS download history and activity reflect real test jobs
+PASS mobile menu, dialogs and narrow-screen routes have no overflow
+PASS disconnect requires confirmation and clears local session
+PASS logout invalidates authentication and protects resource APIs
+
+15 browser scenarios passed; 16 accessibility audits clean.
+found 0 vulnerabilities
+Verification completed; no live WhatsApp account was used.

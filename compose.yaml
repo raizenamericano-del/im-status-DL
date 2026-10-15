@@ -1,0 +1,73 @@
+services:
+  db:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_DB: imhub
+      POSTGRES_USER: imhub
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U imhub -d imhub]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+  web:
+    build: .
+    image: im-status-hub:local
+    env_file: .env
+    environment:
+      SERVICE_ROLE: web
+      PORT: 3000
+      DATABASE_URL: postgresql://imhub:${POSTGRES_PASSWORD}@db:5432/imhub?schema=public&connection_limit=10&pool_timeout=10&connect_timeout=10
+      APP_ORIGIN: http://localhost:3000
+      COOKIE_SECURE: 'false'
+      WORKER_URL: http://worker:3210
+    command: [sh, -c, npm run db:migrate && npm start]
+    ports: ['3000:3000']
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "fetch('http://localhost:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+  worker:
+    build: .
+    image: im-status-hub:local
+    env_file: .env
+    environment:
+      SERVICE_ROLE: worker
+      PORT: 3210
+      WORKER_PORT: 3210
+      DATABASE_URL: postgresql://imhub:${POSTGRES_PASSWORD}@db:5432/imhub?schema=public&connection_limit=10&pool_timeout=10&connect_timeout=10
+      MEDIA_ROOT: /data/media
+    volumes:
+      - media:/data
+    depends_on:
+      web:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "fetch('http://localhost:3210/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+volumes:
+  database:
+  media:

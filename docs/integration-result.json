@@ -1,0 +1,7 @@
+{
+  "passed": 20,
+  "database": "PostgreSQL 17 (isolated _test database)",
+  "provider": "mock, no live account",
+  "authRestart": "two child processes; encrypted state/Signal keys round-trip verified",
+  "at": "2026-10-15T10:33:43.609Z"
+}
